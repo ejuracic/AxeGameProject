@@ -31,7 +31,11 @@ int main()
     int axeDirection = 10;
 
     //collision detection bool
-    bool collisionWithAxe = false;
+    bool collisionWithAxe = 
+                        (bottomAxeY >= upperCircleY) && 
+                        (upperAxeY <= bottomCircleY) && 
+                        (rightAxeX >= leftCircleX) &&
+                        (leftAxeX <= rightCircleX); 
 
     //initializing the window
     InitWindow(windowWidth, windowHeight, "Axe Game");
@@ -53,6 +57,20 @@ int main()
 
         else
         {
+            //update the edges
+
+            //for circle
+            leftCircleX = circleXCoordinate - circleRadius;
+            rightCircleX = circleXCoordinate + circleRadius;
+            upperCircleY = circleYCoordinate - circleRadius;
+            bottomCircleY = circleYCoordinate + circleRadius;
+
+            //for axe
+            leftAxeX = axeXCoordinate;
+            rightAxeX = axeXCoordinate + axeLength;
+            upperAxeY = axeYCoordinate;
+            bottomAxeY = axeYCoordinate + axeLength;
+
             DrawCircle(circleXCoordinate, circleYCoordinate, circleRadius, BLUE); //first two parameters represent coordinates within the X & Y axis of the screen, third parameter is radius of the circle. Last parameter is color
             
             DrawRectangle(axeXCoordinate, axeYCoordinate, axeLength, axeLength, RED);
@@ -90,6 +108,12 @@ int main()
             if(IsKeyDown(KEY_S) && circleYCoordinate < windowHeight)
             {
                 circleYCoordinate += 5;
+            }
+
+            //update collision with axe
+            if (bottomAxeY >= upperCircleY && upperAxeY <= bottomCircleY && leftAxeX <= rightCircleX && rightAxeX >= leftCircleX)
+            {
+                collisionWithAxe = true;
             }
 
         }
